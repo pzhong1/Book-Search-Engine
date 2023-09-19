@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const db = require("./config/connection");
-const routes = require("./routes");
+
 const { ApolloServer } = require("apollo-server-express"); //import Apollo server for graphicQI API
 const { typeDefs, resolvers } = require("./schemas"); //Import your GraphQL schema and resolvers
 
@@ -16,14 +16,16 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
+
 // Create an instance of Apollo Server
 const server = new ApolloServer({
   typeDefs, //this is GraphQL schema
   resolvers, //this is resolvers
   context: ({ req }) => ({ req }),
 });
-
-app.use(routes);
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
