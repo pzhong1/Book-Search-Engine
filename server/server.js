@@ -16,21 +16,22 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
-
 // Create an instance of Apollo Server
 const server = new ApolloServer({
   typeDefs, //this is GraphQL schema
   resolvers, //this is resolvers
   context: ({ req }) => ({ req }),
+  playground: true,
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
   await server.start();
   server.applyMiddleware({ app });
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
 
   db.once("open", () => {
     app.listen(PORT, () => {
