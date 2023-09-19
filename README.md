@@ -1,6 +1,7 @@
 ## deployed application.
 
 ## The URL of the GitHub repository.
+https://github.com/pzhong1/Book-Search-Engine.git
 
 ## User Story
 
