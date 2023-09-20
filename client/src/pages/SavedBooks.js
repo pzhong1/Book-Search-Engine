@@ -11,6 +11,8 @@ const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
   const userData = data?.me || {};
 
+  const savedBooks = userData.savedBooks || [];
+
   // use useMutation hook REMOVE_BOOK
   const [removeBookMutation] = useMutation(REMOVE_BOOK);
 
@@ -45,14 +47,14 @@ const SavedBooks = () => {
       </div>
       <Container>
         <h2 className="pt-5">
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${
-                userData.savedBooks.length === 1 ? "book" : "books"
+          {savedBooks.length
+            ? `Viewing ${savedBooks.length} saved ${
+                savedBooks.length === 1 ? "book" : "books"
               }:`
             : "You have no saved books!"}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {savedBooks.map((book) => {
             return (
               <Col md="4">
                 <Card key={book.bookId} border="dark">
